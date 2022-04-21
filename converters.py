@@ -21,6 +21,7 @@ class Units:
         self.distance_conversion = {
             'MM': 0.001, 'CM': 0.01, 'M': 1, 'KM': 1000, 'YD': 0.9144, 'FT': 0.3048, 'IN': 0.0254
         }
+        self.mass_conversion = {'KG': 1000, 'G': 1, 'MG': 0.001, 'LB': 453.592, 'OZ': 28.3495}
 
     def convert(self, convert_type, unit_in, unit_out, val):
         conversion = None
@@ -31,6 +32,9 @@ class Units:
 
         elif convert_type == "TEMP":
             return self.convert_temp(unit_in, unit_out, val)
+
+        elif convert_type == "MASS":
+            conversion = self.mass_conversion
 
         return round(val*conversion[unit_in]/conversion[unit_out], 4)
 
