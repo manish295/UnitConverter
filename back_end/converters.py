@@ -1,17 +1,30 @@
 import requests
+import json
+import time
 
 
 class Currency:
 
     def __init__(self, url):
-        data = requests.get(url).json()
-        self.currencies = data['conversion_rates']
+        with open("curr.json", 'r+') as f:
+            data = json.load(f)
+            next_update = data["time_next_update_unix"]
+            if int(time.time()) > next_update:
+                data = requests.get(url).json()
+                print("new request")
+                f.seek(0)
+                json.dump(data, f, indent=2)
+                f.truncate()
+            self.currencies = data['conversion_rates']
 
     def convert(self, base_currency, to_currency, value):
         if base_currency != "USD":
             value /= self.currencies[base_currency]
 
         return round(value * self.currencies[to_currency], 4)
+
+    def get_currencies(self):
+        return self.currencies.keys()
 
 
 class Units:
@@ -36,28 +49,23 @@ class Units:
         elif convert_type == "MASS":
             conversion = self.mass_conversion
 
-        return round(val*conversion[unit_in]/conversion[unit_out], 4)
+        return round(val * conversion[unit_in] / conversion[unit_out], 4)
 
     def convert_temp(self, unit_in, unit_out, val):
         converted = {}
         if unit_in == "F":
             converted["F"] = val
-            converted["C"] = round((val - 32) * (5.0/9.0), 4)
+            converted["C"] = round((val - 32) * (5.0 / 9.0), 4)
             converted["K"] = converted["C"] + 273.15
 
         elif unit_in == "C":
-            converted["F"] = round((val * (9.0/5.0)) + 32, 4)
+            converted["F"] = round((val * (9.0 / 5.0)) + 32, 4)
             converted["C"] = val
             converted["K"] = converted["C"] + 273.15
 
         elif unit_in == "K":
-            converted["F"] = round((val - 273.15) * (9.0/5.0) + 32)
+            converted["F"] = round((val - 273.15) * (9.0 / 5.0) + 32)
             converted["C"] = val - 273.15
             converted["K"] = val
 
         return converted[unit_out]
-
-
-
-
-

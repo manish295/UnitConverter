@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+
+<body>
+    <div class="unit-row-outer">
+        <div class="unit-converter">
+            <h2>Unit Converter</h2>
+            <div class="field grid-50-50">
+                <div class="colmun col-left">
+                    <input type="number" class="form-input" id="input" placeholder="">
+                </div>
+                <div class="colmun col-right">
+                    <div class="select">
+                        <select name="unit" class="unit">
+                            {% for currency in currencies %}
+                                <option value="{{currency}}">{{currency}}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="field grid-50-50">
+                <div class="colmun col-left">
+                    <input type="text" class="form-input" id="output" placeholder="00000" disabled>
+                </div>
+                <div class="colmun col-right">
+                    <div class="select">
+                        <select name="unit" class="unit">
+                            {% for currency in currencies %}
+                                <option value="{{currency}}">{{currency}}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
