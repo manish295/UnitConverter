@@ -5,12 +5,12 @@ import time
 
 class Currency:
 
-    def __init__(self, url):
-        with open("curr.json", 'r+') as f:
+    def __init__(self):
+        with open("back_end/curr.json", 'r+') as f:
             data = json.load(f)
             next_update = data["time_next_update_unix"]
             if int(time.time()) > next_update:
-                data = requests.get(url).json()
+                data = requests.get("https://v6.exchangerate-api.com/v6/5e3fa81ca1fd4ed734a46127/latest/USD").json()
                 print("new request")
                 f.seek(0)
                 json.dump(data, f, indent=2)
@@ -24,7 +24,7 @@ class Currency:
         return round(value * self.currencies[to_currency], 4)
 
     def get_currencies(self):
-        return self.currencies.keys()
+        return list(self.currencies.keys())
 
 
 class Units:
@@ -69,3 +69,15 @@ class Units:
             converted["K"] = val
 
         return converted[unit_out]
+
+    def get_units(self, units):
+        if units == "TIME":
+            return list(self.time_conversion.keys())
+        elif units == "DISTANCE":
+            return list(self.distance_conversion.keys())
+
+        elif units == "TEMP":
+            return ["C", "F", "K"]
+
+        elif units == "MASS":
+            return list(self.mass_conversion.keys())

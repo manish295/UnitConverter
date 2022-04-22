@@ -8,33 +8,48 @@
         <div class="unit-converter">
             <h2>Unit Converter</h2>
             <div class="field grid-50-50">
-                <div class="colmun col-left">
-                    <input type="number" class="form-input" id="input" placeholder="">
-                </div>
-                <div class="colmun col-right">
+                <div class="column">
                     <div class="select">
-                        <select name="unit" class="unit">
-                            {% for currency in currencies %}
-                                <option value="{{currency}}">{{currency}}</option>
-                            {% endfor %}
+                        <select id="converter" name="converter" class="converter">
+                            <option disabled selected value> -- select an option -- </option>
+                            <option value = "CURR">Currency</option>
+                            <option value = "TIME">Time</option>
+                            <option value = "DISTANCE">Distance</option>
+                            <option value = "MASS">Mass</option>
+                            <option value = "TEMP">Temperature</option>
+                        </select>
+                    </div>
+                </div>
 
+            </div>
+            <div class="field grid-50-50">
+                <div class="column col-left">
+                    <input type="number" class="form-input" id="input" autocomplete="off">
+                </div>
+                <div class="column col-right">
+                    <div class="select">
+                        <select id="unit-in" name="unit" class="unit">
                         </select>
                     </div>
                 </div>
             </div>
             <div class="field grid-50-50">
-                <div class="colmun col-left">
-                    <input type="text" class="form-input" id="output" placeholder="00000" disabled>
+                <div class="column col-left">
+                    <input type="text" class="form-input" id="output" disabled>
                 </div>
-                <div class="colmun col-right">
+                <div class="column col-right">
                     <div class="select">
-                        <select name="unit" class="unit">
-                            {% for currency in currencies %}
-                                <option value="{{currency}}">{{currency}}</option>
-                            {% endfor %}
-
+                        <select id="unit-out" name="unit" class="unit">
                         </select>
                     </div>
+                </div>
+            </div>
+             <div class="field grid-50-50">
+                <div class="column col-left">
+                    <button id="convert" type="button" class="btn btn-success">Convert</button>
+                </div>
+                <div class="column col-right">
+                    <button id="switch" type="button" class="btn btn-danger">Switch</button>
                 </div>
             </div>
         </div>
