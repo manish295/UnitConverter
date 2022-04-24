@@ -8,11 +8,22 @@ $(document).ready(function() {
         var unit_type = this.value;
         postData({"unit_type": unit_type}, "update-units", function(result) {
             console.log(result);
-            for(let i of result.units) {
-                var data = "<option value=" + i + ">" + i + "</option>"
-                $('#unit-in').append(data)
-                $('#unit-out').append(data)
+            var data;
+            if (unit_type == "CURR") {
+                for(let i of Object.keys(result)) {
+                    data = "<option value=" + i + ">" + result[i] + "</option>"
+                     $('#unit-in').append(data)
+                    $('#unit-out').append(data)
+                }
             }
+            else {
+                for(let i of result.units) {
+                    data = "<option value=" + i + ">" + i + "</option>"
+                     $('#unit-in').append(data)
+                     $('#unit-out').append(data)
+                }
+            }
+
         });
     $('#convert').click(function(e) {
         e.stopImmediatePropagation();

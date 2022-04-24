@@ -24,17 +24,24 @@ class Currency:
         return round(value * self.currencies[to_currency], 4)
 
     def get_currencies(self):
-        return list(self.currencies.keys())
+        new_dict = {}
+        with open("back_end/curr_names.json", "r", encoding="utf8") as f:
+            data = json.load(f)
+            for key in data.keys():
+                new_dict[key] = f"{key} ({data[key]['name']})"
+
+        return new_dict
 
 
 class Units:
 
     def __init__(self):
-        self.time_conversion = {'HR': 3600, 'MIN': 60, 'SEC': 1}
+        self.time_conversion = {'Hr': 3600, 'Min': 60, 'Sec': 1}
         self.distance_conversion = {
-            'MM': 0.001, 'CM': 0.01, 'M': 1, 'KM': 1000, 'YD': 0.9144, 'FT': 0.3048, 'IN': 0.0254
+            'mm': 0.001, 'cm': 0.01, 'm': 1, 'km': 1000, 'yd': 0.9144, 'ft': 0.3048, 'in': 0.0254
         }
-        self.mass_conversion = {'KG': 1000, 'G': 1, 'MG': 0.001, 'LB': 453.592, 'OZ': 28.3495}
+        self.mass_conversion = {'kg': 1000, 'g': 1, 'mg': 0.001, 'lb': 453.592, 'oz': 28.3495}
+        self.frequency_conversion = {'Hz': 1, 'MHz': 1e+6, 'GHz': 1e+9, 'KHz': 1000}
 
     def convert(self, convert_type, unit_in, unit_out, val):
         conversion = None
@@ -49,22 +56,25 @@ class Units:
         elif convert_type == "MASS":
             conversion = self.mass_conversion
 
-        return round(val * conversion[unit_in] / conversion[unit_out], 4)
+        elif convert_type == "FREQ":
+            conversion = self.frequency_conversion
+
+        return round(val * conversion[unit_in] / conversion[unit_out], 6)
 
     def convert_temp(self, unit_in, unit_out, val):
         converted = {}
         if unit_in == "F":
             converted["F"] = val
-            converted["C"] = round((val - 32) * (5.0 / 9.0), 4)
+            converted["C"] = round((val - 32) * (5.0 / 9.0), 6)
             converted["K"] = converted["C"] + 273.15
 
         elif unit_in == "C":
-            converted["F"] = round((val * (9.0 / 5.0)) + 32, 4)
+            converted["F"] = round((val * (9.0 / 5.0)) + 32, 6)
             converted["C"] = val
             converted["K"] = converted["C"] + 273.15
 
         elif unit_in == "K":
-            converted["F"] = round((val - 273.15) * (9.0 / 5.0) + 32)
+            converted["F"] = round((val - 273.15) * (9.0 / 5.0) + 32, 6)
             converted["C"] = val - 273.15
             converted["K"] = val
 
@@ -78,6 +88,9 @@ class Units:
 
         elif units == "TEMP":
             return ["C", "F", "K"]
+
+        elif units == "FREQ":
+            return list(self.frequency_conversion.keys())
 
         elif units == "MASS":
             return list(self.mass_conversion.keys())

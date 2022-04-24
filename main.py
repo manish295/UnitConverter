@@ -17,7 +17,7 @@ def update_units():
     unit = request.get_json()["unit_type"]
     if unit == "CURR":
         converter = Currency()
-        return json.dumps({"units": converter.get_currencies()}), 200
+        return json.dumps(converter.get_currencies()), 200
     else:
         converter = Units()
         return json.dumps({"units": converter.get_units(unit)}), 200
