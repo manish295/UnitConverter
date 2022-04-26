@@ -1,13 +1,13 @@
                * {
      padding: 0;
      margin: 0;
-     font-family: 'IBM Plex Sans', sans-serif
  }
 
  body {
      height: 100vh;
      width: 100vw;
-     overflow-x: hidden
+     overflow-x: hidden;
+      background: #222D32;
  }
 
  .unit-row-outer {
@@ -21,6 +21,7 @@
      width: 100%;
      max-width: 480px;
      text-align: center
+
  }
 
  input,
@@ -40,11 +41,17 @@
      box-shadow: inset 0 0.0625em 0.125em rgb(10 10 10 / 5%);
      -webkit-appearance: none
  }
+.stuff {
+    margin-top: 100px;
+
+}
 
  .field.grid-50-50 {
      display: grid;
      grid-template-columns: 1fr 1fr;
      grid-gap: 15px
+     justify-content: center;
+     align-content: center;
  }
 
  .unit-converter .column {
@@ -69,6 +76,7 @@
 
  h2 {
      padding-bottom: 30px
+
  }
 
  .unit-converter .select:after {
