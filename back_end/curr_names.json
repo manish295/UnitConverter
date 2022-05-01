@@ -1,7 +1,7 @@
 {
 	"USD": {
 		"symbol": "$",
-		"name": "US Dollar",
+		"name": "United States Dollar",
 		"symbol_native": "$",
 		"decimal_digits": 2,
 		"rounding": 0,

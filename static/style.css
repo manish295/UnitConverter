@@ -96,11 +96,3 @@
      right: 1.125em;
      margin-top: -0.4375em
  }
-
- .select:not(:hover)::after {
-     border-color: #3273dc
- }
-
- .select:hover::after {
-     border-color: #363636
- }

@@ -1,10 +1,16 @@
 $(document).ready(function() {
+
     $('#converter').on('change', function() {
         console.log("Changed");
+        $('#unit-in').selectpicker('destroy')
+        $('#unit-out').selectpicker('destroy');
         $("#input").val("");
         $("#output").val("");
-        $("#unit-in").empty();
+        $('#unit-in').empty();
         $("#unit-out").empty();
+        $('#unit-in').selectpicker()
+        $('#unit-out').selectpicker();
+
         var unit_type = this.value;
         postData({"unit_type": unit_type}, "update-units", function(result) {
             console.log(result);
@@ -23,8 +29,12 @@ $(document).ready(function() {
                      $('#unit-out').append(data)
                 }
             }
+            $('#unit-out').selectpicker('refresh');
+            $('#unit-in').selectpicker('refresh');
 
         });
+    });
+
     $('#convert').click(function(e) {
         e.stopImmediatePropagation();
         console.log("clicked");
@@ -48,8 +58,9 @@ $(document).ready(function() {
         console.log("clicked");
         var top = $("#unit-in").val();
         var bottom = $("#unit-out").val();
-        $("#unit-in option[value=" + bottom + "]").prop("selected", true);
-        $("#unit-out option[value=" + top + "]").prop("selected", true);
+        $("#unit-in").selectpicker('val', bottom);
+        $("#unit-out").selectpicker('val', top);
+
         if($("#input").val() != "") {
             $("#convert").trigger("click");
         }
@@ -57,7 +68,6 @@ $(document).ready(function() {
 
     });
 
-    })
 });
 
 function postData(send, link, callback) {
