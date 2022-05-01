@@ -17,7 +17,7 @@ class Currency:
                 f.truncate()
             self.currencies = data['conversion_rates']
 
-    def convert(self, base_currency, to_currency, value):
+    def convert_currency(self, base_currency, to_currency, value):
         if base_currency != "USD":
             value /= self.currencies[base_currency]
 
@@ -33,18 +33,25 @@ class Currency:
         return new_dict
 
 
-class Units:
+class Units(Currency):
 
     def __init__(self):
+        super().__init__()
         self.time_conversion = {'Hr': 3600, 'Min': 60, 'Sec': 1}
         self.distance_conversion = {
             'mm': 0.001, 'cm': 0.01, 'm': 1, 'km': 1000, 'yd': 0.9144, 'ft': 0.3048, 'in': 0.0254
         }
         self.mass_conversion = {'kg': 1000, 'g': 1, 'mg': 0.001, 'lb': 453.592, 'oz': 28.3495}
         self.frequency_conversion = {'Hz': 1, 'MHz': 1e+6, 'GHz': 1e+9, 'KHz': 1000}
+        self.digital_conversion = {
+            'B': 1, 'KB': 2**10, 'MB': 2**20, 'GB': 2**30, 'TB': 2**40, 'PB': 2**50, 'EB': 2**60,
+            'ZB': 2**70, 'YB': 2**70
+        }
 
     def convert(self, convert_type, unit_in, unit_out, val):
         conversion = None
+        if convert_type == "CURR":
+            return self.convert_currency(unit_in, unit_out, val)
         if convert_type == "TIME":
             conversion = self.time_conversion
         elif convert_type == "DISTANCE":
@@ -58,6 +65,9 @@ class Units:
 
         elif convert_type == "FREQ":
             conversion = self.frequency_conversion
+
+        elif convert_type == "DIGITAL":
+            conversion = self.digital_conversion
 
         return round(val * conversion[unit_in] / conversion[unit_out], 6)
 
@@ -94,3 +104,9 @@ class Units:
 
         elif units == "MASS":
             return list(self.mass_conversion.keys())
+
+        elif units == "DIGITAL":
+            return list(self.digital_conversion.keys())
+
+        elif units == "CURR":
+            return self.get_currencies()
