@@ -16,8 +16,9 @@ $(document).ready(function() {
             console.log(result);
             var data;
             if (unit_type == "CURR") {
-                for(let i of Object.keys(result)) {
-                    data = "<option value=" + i + ">" + result[i] + "</option>"
+                for(let i of Object.keys(result["units"])) {
+                    console.log(result[i]);
+                    data = "<option value=" + i + ">" + result["units"][i] + "</option>"
                      $('#unit-in').append(data)
                     $('#unit-out').append(data)
                 }
